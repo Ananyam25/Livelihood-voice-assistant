@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Livelihood Assistant – Voice-first AI for informal and rural workers. Speak your experience, get your skill profile, and find your next career opportunity. Powered by Gemma 4." />
+  <meta property="og:title" content="Livelihood Assistant – Speak Your Experience" />
+  <meta property="og:description" content="AI-powered skill profiling for informal workers. Powered by Gemma 4." />
+  <meta name="theme-color" content="#6c63ff" />
+  <title>Livelihood Assistant – Speak Your Experience</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎙️</text></svg>" />
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="site-header" role="banner">
+  <div class="inner">
+    <div class="logo" aria-label="Livelihood Assistant">
+      <div class="logo-icon" aria-hidden="true">🎙️</div>
+      <div class="logo-text">
+        Livelihood <span>Assistant</span>
+      </div>
+    </div>
+
+    <div class="header-badge" aria-label="Powered by Gemma 4">✦ Powered by Gemma 4</div>
+
+    <div class="stats-bar" id="stats-bar" aria-live="polite">
+      <span class="stat-chip">Workers: <strong id="stat-workers">—</strong></span>
+      <span class="stat-chip">Jobs Matched: <strong id="stat-jobs">—</strong></span>
+      <span class="stat-chip">States: <strong id="stat-states">—</strong></span>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<main id="main-content">
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="hero-eyebrow" aria-label="Voice-first AI for informal workers">
+    <span>🌏</span> Empowering 142,800+ Workers Across India
+  </div>
+  <h1 id="hero-heading">Speak Your Experience.<br>Unlock Your Future.</h1>
+  <p>No degree? No problem. Share your work story in your own words — voice, photo, or text — and get a personalised skill profile with career pathways.</p>
+</section>
+
+<!-- ============================================================
+     INPUT CARD
+     ============================================================ -->
+<div class="container">
+  <section class="input-card" id="input-section" aria-labelledby="input-heading">
+    <h2 id="input-heading" class="sr-only">Share your experience</h2>
+
+    <!-- Microphone -->
+    <div class="mic-area">
+      <div class="mic-wrapper" role="presentation">
+        <div class="mic-ring" aria-hidden="true"></div>
+        <div class="mic-ring" aria-hidden="true"></div>
+        <div class="mic-ring" aria-hidden="true"></div>
+
+        <button
+          id="mic-btn"
+          type="button"
+          aria-label="Start voice recording – click to speak your work experience"
+          aria-pressed="false"
+          aria-describedby="mic-status"
+        >
+          <!-- Microphone icon -->
+          <svg id="mic-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+          </svg>
+          <!-- Stop icon (shown while recording) -->
+          <svg id="stop-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none;">
+            <rect x="6" y="6" width="12" height="12" rx="2"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="mic-label">
+        <strong>Tap the mic to speak</strong> in any language
+      </div>
+      <div id="mic-status" role="status" aria-live="polite">
+        Tap microphone and describe your work experience
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider" role="separator">OR</div>
+
+    <!-- Image upload -->
+    <div
+      id="image-dropzone"
+      role="button"
+      tabindex="0"
+      aria-label="Upload a photo of your work as evidence"
+      aria-describedby="dropzone-hint"
+    >
+      <span class="dz-icon" aria-hidden="true">📷</span>
+      <p id="dropzone-hint">
+        <strong>Upload a photo</strong> of your work as evidence<br>
+        <small style="color: var(--clr-muted)">Drag &amp; drop or click • JPG / PNG / WEBP</small>
+      </p>
+      <input type="file" id="file-input" accept="image/*" aria-label="Choose an image file" />
+    </div>
+
+    <div id="image-preview" aria-live="polite">
+      <img id="preview-img" src="" alt="Preview of uploaded work evidence" />
+      <span class="preview-badge">📸 Image Ready</span>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider" role="separator">OR TYPE</div>
+
+    <!-- Text input -->
+    <div class="text-input-wrap">
+      <label for="text-input" class="sub-label" style="display:block; margin-top:0; margin-bottom:0.5rem;">
+        Describe your experience (any language)
+      </label>
+      <textarea
+        id="text-input"
+        name="text-input"
+        rows="4"
+        placeholder="E.g. 'Mera naam Rajesh hai. Main 15 saal se lakdi ka kaam karta hoon – almari, dining table, darwaze...' or 'I have been weaving Banarasi sarees for 20 years...'"
+        aria-label="Type or paste your work experience here"
+        spellcheck="false"
+      ></textarea>
+    </div>
+
+    <!-- Analyse Button -->
+    <button id="analyse-btn" type="button" aria-label="Analyse my experience with AI">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/>
+      </svg>
+      Analyse My Experience with AI
+    </button>
+
+    <!-- Demo quick-load buttons -->
+    <div class="demo-strip" role="group" aria-label="Try a demo profile">
+      <span style="font-size:0.8rem; color:var(--clr-muted); align-self:center;">Try demo:</span>
+      <button class="demo-btn" type="button" data-profile="carpenter" aria-label="Load carpenter demo">🪚 Rajesh – Carpenter</button>
+      <button class="demo-btn" type="button" data-profile="weaver"    aria-label="Load weaver demo">🧵 Meena – Weaver</button>
+      <button class="demo-btn" type="button" data-profile="hvac"      aria-label="Load HVAC demo">❄️ Suresh – HVAC</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RESULTS SECTION
+       ============================================================ -->
+  <section id="results-section" aria-labelledby="results-heading" aria-live="polite">
+    <h2 id="results-heading" class="sr-only">Your personalised skill profile and career pathway</h2>
+
+    <!-- ── Readiness Gauge ── -->
+    <div class="readiness-card" id="readiness-card">
+      <div class="gauge-wrap" role="img" aria-labelledby="gauge-label">
+        <svg class="gauge-svg" viewBox="0 0 120 120" aria-hidden="true">
+          <defs>
+            <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#6c63ff"/>
+              <stop offset="100%" stop-color="#00d4aa"/>
+            </linearGradient>
+          </defs>
+          <circle class="gauge-bg" cx="60" cy="60" r="50"/>
+          <circle class="gauge-fg" id="gauge-fg" cx="60" cy="60" r="50"
+            stroke-dasharray="314"
+            stroke-dashoffset="314"
+          />
+        </svg>
+        <div class="gauge-text">
+          <span class="gauge-num" id="gauge-num">0</span>
+          <span class="gauge-unit">/ 100</span>
+        </div>
+      </div>
+      <div class="readiness-info">
+        <h3 id="gauge-label">Career Readiness Score</h3>
+        <p id="readiness-text">Your personalised readiness for top matching opportunities.</p>
+        <button class="tts-btn" type="button" aria-label="Read aloud readiness score" data-tts="readiness-text">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+          </svg>
+          Read Aloud
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Profile Card ── -->
+    <div class="profile-card" id="profile-card">
+      <div class="section-header">
+        <div class="section-icon" aria-hidden="true">👤</div>
+        <div class="section-header-text">
+          <h2>Your Skill Profile</h2>
+          <p>Extracted by Gemma 4 from your input</p>
+        </div>
+      </div>
+
+      <div class="profile-identity">
+        <div class="profile-avatar" aria-hidden="true" id="profile-avatar">👷</div>
+        <div class="profile-meta">
+          <h3 id="profile-name">—</h3>
+          <div class="occupation" id="profile-occupation">—</div>
+          <div class="experience" id="profile-experience">—</div>
+
+          <div class="confidence-bar" role="meter" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="confidence-meter">
+            <label>AI Confidence</label>
+            <div class="bar-track"><div class="bar-fill" id="confidence-fill" style="width:0%"></div></div>
+            <span id="confidence-val">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-summary" id="profile-summary-box">
+        <p id="profile-summary">—</p>
+      </div>
+      <button class="tts-btn" type="button" aria-label="Read aloud your profile summary" data-tts="profile-summary">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+        Read Aloud
+      </button>
+
+      <div class="sub-label">✅ Skills Found</div>
+      <div class="badge-area" id="skills-badges" aria-label="Your detected skills" role="list"></div>
+
+      <div class="sub-label">🔧 Tools Detected</div>
+      <div class="badge-area" id="tools-badges" aria-label="Your tools detected" role="list"></div>
+
+      <div class="sub-label">📊 Level &amp; Language</div>
+      <div class="badge-area" id="level-badges" aria-label="Experience level and language"></div>
+    </div>
+
+    <!-- ── 3-Step Pathway Timeline ── -->
+    <div class="pathway-section" id="pathway-section">
+      <div class="section-header">
+        <div class="section-icon" aria-hidden="true">🗺️</div>
+        <div class="section-header-text">
+          <h2>Your Career Pathway</h2>
+          <p>Three steps from where you are to where you can go</p>
+        </div>
+        <button class="tts-btn" type="button" aria-label="Read aloud your career pathway" data-tts="pathway-tts-text">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+          </svg>
+          Read Aloud
+        </button>
+      </div>
+
+      <!-- Hidden TTS text for the pathway -->
+      <p id="pathway-tts-text" style="display:none"></p>
+
+      <div class="pathway-timeline" role="list">
+        <!-- Step 1: Current -->
+        <div class="pathway-step current" role="listitem" id="step-current">
+          <span class="pathway-step-icon" aria-hidden="true">⭐</span>
+          <div class="pathway-step-label">Step 1</div>
+          <h4>Your Skills Today</h4>
+          <p id="step-current-detail">—</p>
+        </div>
+
+        <!-- Arrow -->
+        <div class="pathway-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+        </div>
+
+        <!-- Step 2: Gap -->
+        <div class="pathway-step gap" role="listitem" id="step-gap">
+          <span class="pathway-step-icon" aria-hidden="true">📚</span>
+          <div class="pathway-step-label">Step 2</div>
+          <h4>Skills to Unlock</h4>
+          <p id="step-gap-detail">—</p>
+        </div>
+
+        <!-- Arrow -->
+        <div class="pathway-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+        </div>
+
+        <!-- Step 3: Target -->
+        <div class="pathway-step target" role="listitem" id="step-target">
+          <span class="pathway-step-icon" aria-hidden="true">🚀</span>
+          <div class="pathway-step-label">Step 3</div>
+          <h4 id="step-target-title">Your Next Role</h4>
+          <p id="step-target-detail">—</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Skill Gaps ── -->
+    <div class="profile-card" id="gap-card">
+      <div class="section-header">
+        <div class="section-icon" aria-hidden="true">🎯</div>
+        <div class="section-header-text">
+          <h2>Skills to Develop</h2>
+          <p>Bridge these gaps to unlock top opportunities</p>
+        </div>
+      </div>
+      <div class="badge-area" id="gap-badges" aria-label="Skills you need to develop" role="list"></div>
+    </div>
+
+    <!-- ── Job Opportunities ── -->
+    <div class="profile-card" id="jobs-card">
+      <div class="section-header">
+        <div class="section-icon" aria-hidden="true">💼</div>
+        <div class="section-header-text">
+          <h2>Matched Opportunities</h2>
+          <p>Jobs that fit your existing skills — ranked by match score</p>
+        </div>
+      </div>
+      <div class="jobs-grid" id="jobs-grid" role="list"></div>
+    </div>
+
+    <!-- ── Micro-learning Courses ── -->
+    <div class="profile-card" id="courses-card">
+      <div class="section-header">
+        <div class="section-icon" aria-hidden="true">🎓</div>
+        <div class="section-header-text">
+          <h2>Recommended Micro-Learning</h2>
+          <p>Short courses that directly close your skill gaps</p>
+        </div>
+      </div>
+      <div class="courses-grid" id="courses-grid" role="list"></div>
+    </div>
+
+    <!-- New analysis button -->
+    <button id="new-analysis-btn" type="button" aria-label="Start a new analysis">
+      ↩ Start a New Analysis
+    </button>
+
+  </section>
+</div><!-- /.container -->
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer" role="contentinfo">
+  <p>
+    <strong>Livelihood Assistant</strong> — Built for the 2026 Hackathon ·
+    Powered by <a href="https://deepmind.google/technologies/gemma/" target="_blank" rel="noopener">Gemma 4</a> ·
+    Serving informal workers across India 🇮🇳
+  </p>
+  <p style="margin-top:0.5rem; font-size:0.75rem;">
+    All data is processed locally. No personal information is stored.
+  </p>
+</footer>
+
+<!-- ============================================================
+     LOADING OVERLAY
+     ============================================================ -->
+<div id="loading-overlay" role="status" aria-live="assertive" aria-label="Analysing your experience with AI">
+  <div class="loader-orb" aria-hidden="true"></div>
+  <div class="loader-text">Analysing with <span>Gemma 4</span>…</div>
+</div>
+
+<!-- ============================================================
+     TOAST
+     ============================================================ -->
+<div id="toast" role="alert" aria-live="assertive"></div>
+
+<!-- sr-only utility -->
+<style>
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+</style>
+
+<script src="/static/app.js" defer></script>
+</body>
+</html>
